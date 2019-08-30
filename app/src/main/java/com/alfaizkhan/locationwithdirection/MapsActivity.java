@@ -57,19 +57,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //PolyLine Intilized
-        points = new ArrayList<LatLng>();
+        //PolyLine Initialize
+        points = new ArrayList<>();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+      //  assert mapFrag != null;
         mapFrag.getMapAsync(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         //stop location updates when Activity is no longer active
         if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
@@ -151,13 +151,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 points.add(latLng);
                 drawLine();
             }
-        };
-
+        }
     };
 
     private void drawLine() {
-        PolylineOptions options = new PolylineOptions().width(5).color( Color.BLUE).geodesic(true);
-
+        PolylineOptions options = new PolylineOptions().width(8).color( Color.BLUE);
             options.addAll(points);
         line = mGoogleMap.addPolyline(options); //add Polyline
     }
@@ -169,6 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -207,7 +206,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
 
                     if (ContextCompat.checkSelfPermission(this,
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
